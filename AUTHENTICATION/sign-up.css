@@ -1,0 +1,132 @@
+*{
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    z-index: 1;
+
+}
+body{
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    background-image: url("Signin\ backup\ image.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display:grid;
+    align-items: center;
+    background-attachment: fixed;
+    
+
+}
+form{
+    border-color:black ;
+    border-width: 5px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    border-style: solid;
+    width: 50vw;
+    padding: 10px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #355E3B;
+}
+h2 {
+    font-family: "Gloria Hallelujah", cursive;
+    color: #f8f8f2;
+    margin: 0 0 10px;
+    text-shadow: 0 0 2px #fff;
+}
+input{
+    margin: 0px;
+    padding: 5px;
+    background-color: transparent;
+    border-color: #fff;
+    border-width: 2px;
+    border-style: dashed;
+
+}
+button {
+    width: 100px;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: white;
+    color: #355E3B;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #e6e6e6;
+}
+a{
+    width: 100px;
+    padding: 8px;
+    border-width:5px ;
+    border-color: black;
+    border-style: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    background: white;
+    color: #355E3B;
+    font-weight: bold;
+    text-align: center;
+}
+p{
+    margin: 10px;
+}
+#username-error{
+    display:none;
+    color: red;
+}
+.info{
+    display: inline-block;
+    width: 27.5px;
+    height:27.5px;
+    margin:3px;
+    border-width:2px ;
+    border-style: solid;
+    border-color:black ;
+    background-color: #fff;
+    color: black;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 900;
+}
+#password-error{
+    display:none;
+    color: red;
+}
+#confirm-password-error{
+    display:none;
+    color: red;
+}
+#info-Login_E-mail-hover,
+#info-username-hover,
+#info-password-hover,
+#info-confirm-password-hover{
+    display: none;
+    z-index: 100;
+
+    position: absolute;
+
+    width: auto;
+    height: auto;
+
+    background: white;
+    border: 1px solid black;
+    padding: 5px;
+    overflow: auto;
+}

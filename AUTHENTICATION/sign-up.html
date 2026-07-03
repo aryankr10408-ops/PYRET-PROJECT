@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-UP</title>
+    <link href="sign-up.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+</head>
+<body>
+    <form class="main-box">
+        <h2>Sign Up</h2>
+        <p>
+        <input type="email" placeholder="Login E-mail" id="email"><span class="info" id="info-Login_E-mail">i</span>
+        <span id="info-Login_E-mail-hover">pls write valid email</span>
+        </p>
+        <p>
+        <input type="text" placeholder="Username" id="username"><span class="info" id="info-username">i</span>
+        <span id="info-username-hover">
+    Username must be 4–16 characters<br>
+    No spaces allowed<br>
+    Only letters, numbers, underscore
+</span>
+        <span id="username-error">
+            <br>
+            Pls recheck the username
+        </span>
+        
+        </p>
+        <p>
+        <input type="password" placeholder="Password" id="password"><span class="info" id="info-password">i</span>
+        <span id="info-password-hover">
+    Password must contain:<br>
+    • 8+ characters<br>
+    • One uppercase letter<br>
+    • One lowercase letter<br>
+    • One number<br>
+    • One special character
+</span>
+        <span id="password-error">
+            <br>
+            Pls recheck the password
+        </span>
+        </p>
+        <p>
+            <input type="password" placeholder="Confirm Password" id="confirm-password"><span class="info" id="info-confirm-password">i</span>
+            <span id="info-confirm-password-hover">
+    Must match the password
+</span>
+            <span id="confirm-password-error">
+                <br>
+                pls recheck confirm password
+            </span>
+        </p>
+        <p>
+        <input type="text" placeholder="first name"> <input type="text" placeholder="middle name"> <input type="text" placeholder="last name"><span class="info">i</span>
+        </p>
+        <p>
+        <select id="Gender">
+            <option value="" selected disabled>Choose a gender</option>
+            <option value="Male">MALE</option>
+            <option value="Female">Female</option>
+            <option value="LGBTQ">Others</option>
+        </select>
+        <span class="info">i</span>
+        <input type="number" max="1000" min="0" id="age" placeholder="age">
+        <span class="info">i</span>
+        </p>
+
+        <p>
+            <select id="degree">
+                <option value="" selected disabled>Degree</option>
+                <option value="B.Tech">B.Tech</option>
+                <option value="M.Tech">M.Tech</option>
+                <option value="Phd">Phd</option>
+            </select>
+            <span class="info">i</span>
+            <input type="number" max="100" min="1" id="year" placeholder="year">
+            <span class="info">i</span>
+        </p>
+        
+        <button type="submit">Sign-Up</button>
+
+        <p>------------------</p>
+        <a href="Sign-in.html">Sign-In</a>
+    </form>
+    <script type="module"  src="sign-up.js"></script>
+    
+</body>
+</html>
