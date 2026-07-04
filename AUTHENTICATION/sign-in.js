@@ -6,7 +6,7 @@ btn.addEventListener("click",async function(del){
 
     try{
         let usercredential=await signInWithEmailAndPassword(auth,document.querySelector("#email").value,document.querySelector("#password").value);
-        window.location.href="dashbord.html";
+        window.location.href="../main-space/dashbord.html";
         
     }
     catch(error){
