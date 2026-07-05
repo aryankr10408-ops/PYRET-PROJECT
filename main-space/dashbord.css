@@ -79,7 +79,7 @@ body{
 }
 #profile-image{
     display: grid;
-    
+    height: 70vh;
     position: relative;
 }
 #profile-image > img{
@@ -160,5 +160,27 @@ body{
     top: 60%;
     left:30%;
     height: 30px;
+    display: none;
+}
+#url-link-button{
+    height: 30px;
+    width: aut;
+    display: none;
+
+}
+#navigation-bar{
+    position: absolute;
+    background-color: rgba(0, 0, 0,0.9);
+    top: 80%;
+    color: blanchedalmond;
+    width: 14rem;
+    height: 10rem;
+    display:none;
+
+}
+.navigation-bar-item:hover{
+    color: whitesmoke;
+    font-size: 20px;
+    cursor: pointer;
 }
 

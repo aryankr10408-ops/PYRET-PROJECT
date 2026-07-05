@@ -30,8 +30,49 @@ showButton(gender, change_gender);
 showButton(degree, change_degree);
 showButton(year, change_year); 
 
-let img_profile=document.querySelector("#change-option-p");
-// img_profile.addEventListener("click",function(){
+let img_profile_change = document.querySelector("#change-option-p");
+let img_profile_change_link = document.querySelector("#url-link input");
+let img_profile_change_button = document.querySelector("#url-link-button");
+let img_profile = document.querySelector("#img-profile");
+let profile_pic = document.querySelector("#profile");
+let url_link = document.querySelector("#url-link");
 
-// })
+img_profile_change.addEventListener("click", function () {
+    url_link.style.display = "block";
+    img_profile_change_button.style.display = "inline-block";
+});
 
+img_profile_change_button.addEventListener("click", function (del) {
+    del.preventDefault();
+
+    if (img_profile_change_link.value.trim() === "") {
+        alert("Enter an image URL");
+        return;
+    }
+
+    img_profile.src = img_profile_change_link.value;
+    profile_pic.style.backgroundImage = `url("${img_profile_change_link.value}")`;
+
+});
+let nav_icon=document.querySelector("#nav");
+let navigation_bar=document.querySelector("#navigation-bar");
+let timer;
+nav_icon.addEventListener("mouseenter",function(){
+    navigation_bar.style.display="initial";
+})
+nav_icon.addEventListener("mouseleave",function(){
+     timer=setTimeout(function(){
+            navigation_bar.style.display="none";
+
+    },500)
+    navigation_bar.style.display="initial";
+})
+navigation_bar.addEventListener("mouseenter", () => {
+    clearTimeout(timer);
+    navigation_bar.style.display = "block";
+});
+navigation_bar.addEventListener("mouseleave", () => {
+    
+    navigation_bar.style.display = "none";
+});
+let
