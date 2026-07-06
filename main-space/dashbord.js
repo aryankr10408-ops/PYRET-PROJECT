@@ -1,3 +1,35 @@
+import { auth } from "./AUTHENTICATION/figure.js";
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const dashboard = document.getElementById("dashboard-content");
+// const usernameNav = document.getElementById("nav-username");
+
+onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+        
+        dashboard.style.display = "initial";
+
+        
+        // usernameNav.textContent = user.email;
+
+    } else {
+
+        
+        window.location.replace("login.html");
+
+    }
+
+});
+
+
+
+
+
 // Inputs
 let username = document.querySelector("#username-input");
 let age = document.querySelector("#Item2 input");
@@ -75,4 +107,3 @@ navigation_bar.addEventListener("mouseleave", () => {
     
     navigation_bar.style.display = "none";
 });
-let

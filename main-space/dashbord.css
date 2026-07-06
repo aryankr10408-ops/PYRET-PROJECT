@@ -3,6 +3,10 @@
     border: 0;
     box-sizing: border-box;
 }
+
+#dashbord-content{
+    display: none;
+}
 #headies{
     height: 10vh;
     width: 100%;
