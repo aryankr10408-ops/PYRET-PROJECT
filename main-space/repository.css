@@ -11,6 +11,9 @@ body{
     letter-spacing: 2px;
 
 }
+#repository-content{
+    display: none;
+}
 #headies{
     height: 10vh;
     width: 100%;
@@ -112,4 +115,7 @@ body{
 }
 #signout-login-id{
     font-size: 0.8rem;
+}
+#signout{
+    display: none;
 }

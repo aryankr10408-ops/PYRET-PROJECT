@@ -187,4 +187,36 @@ body{
     font-size: 20px;
     cursor: pointer;
 }
+#signout{
+    position: absolute;
+    width: 7rem;
+    height: 6rem;
+    background-color: rgba(0, 0, 0,0.9);
+    top: 80%;
+    left:80%;
+
+
+}
+#signout-button-click{
+    width: 5rem;
+    height: 2rem;
+    background-color: darkgreen;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    margin: 1rem;
+    cursor: pointer;
+}
+#signout-button{
+    display: none;
+}
+#signout-login-id{
+    font-size: 0.8rem;
+}
+#signout{
+    display: none;
+}
 

@@ -1,9 +1,8 @@
-// 1. We import the main starter engine
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-// 2. We import our Account Security Guard tools instead of analytics
-import { getAuth, createUserWithEmailAndPassword,  } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA5MAHLML_bSXTv30QJnXvOqmiRKrj5OEQ",
   authDomain: "pyret-7b081.firebaseapp.com",
@@ -14,11 +13,12 @@ const firebaseConfig = {
   measurementId: "G-L74NH5WX70"
 };
 
-// 3. Start the connection engine
 const app = initializeApp(firebaseConfig);
 
-// 4. Wake up the Security Guard (auth) so we can use it below
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
+export default app;
 
 

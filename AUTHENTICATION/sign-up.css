@@ -10,7 +10,7 @@ body{
     width: 100%;
     display: grid;
     place-items: center;
-    background-image: url("Signin\ backup\ image.jpg");
+    background-image:url("Signin\ backup\ image.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     display:grid;
@@ -71,7 +71,7 @@ a{
     padding: 8px;
     border-width:5px ;
     border-color: black;
-    border-style: bold;
+    border-style: solid;
     border-radius: 5px;
     cursor: pointer;
     background: white;
