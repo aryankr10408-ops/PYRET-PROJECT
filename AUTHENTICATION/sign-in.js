@@ -1,5 +1,5 @@
 import{auth} from "./figure.js";
-import{signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import{signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 let btn=document.querySelector("button");
 btn.addEventListener("click",async function(del){
     del.preventDefault();
