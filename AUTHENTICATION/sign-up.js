@@ -180,7 +180,7 @@ submit.addEventListener("click",async function(det){
     !username.value.trim() ||
     !first_name.value.trim() ||
     !last_name.value.trim() ||
-    !middle_name.value.trim() ||
+    
 
     !gender.value ||
     !age.value ||
@@ -237,6 +237,8 @@ submit.addEventListener("click",async function(det){
                                                  // avoids relying on the
                                                  // student's local device time
         });
+        console.log("Document Added");
+        console.log(userCredential.user.uid);
         alert("Success! Check your email for the link.");
 
     } catch (error) {

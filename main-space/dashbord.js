@@ -161,27 +161,6 @@ import {
     getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-async function loadprofile(uid) {
-
-    const q = query(
-        collection(db, "profileinfo"),
-        where("uid", "==", uid)
-    );
-
-    const snapshot = await getDocs(q);
-
-    snapshot.forEach((doc) => {
-        const profile = doc.data();
-
-        email.value = profile.email;
-        username.value = profile.username;
-        name.value = profile.name;
-        gender.value = profile.gender;
-        age.value = profile.age;
-        degree.value = profile.degree;
-        year.value = profile.year;
-    });
-}
 const dashboard = document.getElementById("dashboard-content");
 // const usernameNav = document.getElementById("nav-username");
 
@@ -205,22 +184,7 @@ onAuthStateChanged(auth, async(user) => {
 
 });
 
-let signout_button_click=document.querySelector("#signout-button-click");
-signout_button_click.addEventListener("click",async function(){
-    try{
-        await signOut(auth);
-        window.location.href="../AUTHENTICATION/Sign-in.html"
-    }catch(error){
-            console.error("Sign out error:", error.message);
-
-    }
-})
-
-
-
-
-
-// Inputs
+    // Inputs
 let username = document.querySelector("#username-input");
 let age = document.querySelector("#Item2 input");
 let email = document.querySelector("#Item3 input");
@@ -237,6 +201,51 @@ let change_name = document.querySelector("#change-name");
 let change_gender = document.querySelector("#change-gender");
 let change_degree = document.querySelector("#change-degree");
 let change_year = document.querySelector("#change-year");
+async function loadprofile(uid) {
+
+    console.log("Current UID:", uid);
+
+    const q = query(
+        collection(db, "profileinfo"),
+        where("uid", "==", uid)
+    );
+
+    const snapshot = await getDocs(q);
+
+    console.log("Documents found:", snapshot.size);
+
+    snapshot.forEach((doc) => {
+        console.log(doc.data());
+
+        const profile = doc.data();
+
+        email.value = profile.email;
+        username.value = profile.username;
+        name.value = profile.name;
+        gender.value = profile.gender;
+        age.value = profile.age;
+        degree.value = profile.degree;
+        year.value = profile.year;
+    });
+}
+
+
+let signout_button_click=document.querySelector("#signout-button-click");
+signout_button_click.addEventListener("click",async function(){
+    try{
+        await signOut(auth);
+        window.location.href="../AUTHENTICATION/Sign-in.html"
+    }catch(error){
+            console.error("Sign out error:", error.message);
+
+    }
+})
+
+
+
+
+
+
 
 function showButton(input, button) {
     input.addEventListener("input", function () {
