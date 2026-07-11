@@ -158,11 +158,13 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const dashboard = document.getElementById("dashboard-content");
 // const usernameNav = document.getElementById("nav-username");
+let profileDocRef = null;
 
 onAuthStateChanged(auth, async(user) => {
 
@@ -193,6 +195,10 @@ let gender = document.querySelector("#Item5 input");
 let degree = document.querySelector("#Item6 input");
 let year = document.querySelector("#Item7 input");
 
+
+let profile=document.querySelector("#profile");
+let signout=document.querySelector("#signout");
+let nav_username=document.querySelector("#nav-username");
 // Change buttons
 let change_username = document.querySelector("#change-username");
 let change_age = document.querySelector("#change-age");
@@ -211,21 +217,27 @@ async function loadprofile(uid) {
     );
 
     const snapshot = await getDocs(q);
+    if (snapshot.empty) {
+    alert("Profile not found.");
+    return;
+}
 
     console.log("Documents found:", snapshot.size);
 
     snapshot.forEach((doc) => {
-        console.log(doc.data());
+         profileDocRef = doc.ref;
 
-        const profile = doc.data();
+        const pprofile = doc.data();
 
-        email.value = profile.email;
-        username.value = profile.username;
-        name.value = profile.name;
-        gender.value = profile.gender;
-        age.value = profile.age;
-        degree.value = profile.degree;
-        year.value = profile.year;
+        email.value = pprofile.email;
+        username.value = pprofile.username;
+        name.value = pprofile.name;
+        gender.value = pprofile.gender;
+        age.value = pprofile.age;
+        degree.value = pprofile.degree;
+        year.value = pprofile.year;
+        profile.style.backgroundImage = `url("${pprofile.imageURL}")`;
+        nav_username.innerText=pprofile.username;
     });
 }
 
@@ -260,6 +272,45 @@ showButton(name, change_name);
 showButton(gender, change_gender);
 showButton(degree, change_degree);
 showButton(year, change_year); 
+
+function changeValue(input, button, fieldName) {
+
+    button.addEventListener("click", async function (e) {
+
+        e.preventDefault();
+
+        if (!profileDocRef) {
+            alert("Profile not loaded.");
+            return;
+        }
+
+        try {
+
+            await updateDoc(profileDocRef, {
+                [fieldName]: input.value
+            });
+
+            alert(fieldName + " updated successfully!");
+
+            button.style.display = "none";
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.message);
+
+        }
+
+    });
+
+}
+changeValue(username, change_username, "username");
+changeValue(age, change_age, "age");
+
+changeValue(name, change_name, "name");
+changeValue(gender, change_gender, "gender");
+changeValue(degree, change_degree, "degree");
+changeValue(year, change_year, "year");
 
 let img_profile_change = document.querySelector("#change-option-p");
 let img_profile_change_link = document.querySelector("#url-link input");
@@ -327,8 +378,7 @@ navigation_bar.addEventListener("mouseleave", () => {
     navigation_bar.style.display = "none";
 });
 let ttimer;
-let profile=document.querySelector("#profile");
-let signout=document.querySelector("#signout");
+
 profile.addEventListener("mouseenter",function(){
     signout.style.display="initial";
 })
@@ -347,3 +397,17 @@ signout.addEventListener("mouseleave", () => {
     
     signout.style.display = "none";
 });
+
+
+
+let navigation_bar_dashbord=document.querySelector("#navigation-bar-dashbord");
+let navigation_bar_repository=document.querySelector("#navigation-bar-repository");
+let navigation_bar_forms=document.querySelector("#navigation-bar-forms");
+let navigation_bar_collaboration=document.querySelector("#navigation-bar-collaboration");
+
+function clicktonav(button,place){
+    button.addEventListener("click",function(){
+        window.location.href=place;
+    })
+}
+clicktonav(navigation_bar_repository,"repository.html");

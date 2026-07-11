@@ -9,8 +9,133 @@ body{
     font-family:'Poppins',sans-serif;
     font-weight: 700;
     letter-spacing: 2px;
+    position: relative;
 
 }
+#floating{
+    position: absolute;
+    width: 80vw;
+    height: 65vh;
+    background-color: rgba(0, 0, 0,0.9);
+    z-index: 1;
+    left: 10%;
+    top: 25%;
+    display:none;
+    place-items: center;
+}
+#new_file{
+
+    display: grid;
+    grid-template-columns: 40vw 40vw;
+    grid-template-rows: 15vh 30vh 20vh;
+}
+#cross{
+    border: 4px red dashed;
+    color: red;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transform:translateY(-50%) ;
+    -webkit-transform:translateY(-50%) ;
+    -moz-transform:translateY(-50%) ;
+    -ms-transform:translateY(-50%) ;
+    -o-transform:translateY(-50%) ;
+}
+
+.item_new_file{
+    display: grid;
+    place-items: center;
+    
+}
+.item_new_file>input{
+    color: aliceblue;
+    border: 0.2rem green solid;
+    background-color:black ;
+    width: 50%;
+    height: 50%;
+    font-size: 1.2rem;
+}
+#item-3_new_file{
+    grid-area: 2/1/3/3;
+   
+}
+#description{
+    width: 70vw;
+    height: 15vh;
+    background-color: black;
+    color: aliceblue;
+    border: 0.2rem green dashed;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+#submit_file_new_file{
+    display: none;
+}
+#Asli_khel{
+    width: 10rem;
+    aspect-ratio: 4;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: aliceblue;
+    border-style: solid;
+    border-width: 0.2rem;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease-out 0s;
+    -webkit-transition: all 0.2s ease-out 0s;
+    -moz-transition: all 0.2s ease-out 0s;
+    -ms-transition: all 0.2s ease-out 0s;
+    -o-transition: all 0.2s ease-out 0s;
+    overflow: auto;
+}
+#Asli_khel:hover{
+    width: 12rem;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+    
+
+}
+#submit_of_new_repo{
+     width: 10rem;
+    aspect-ratio: 4;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: aliceblue;
+    border-style: solid;
+    border-width: 0.2rem;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease-out 0s;
+    -webkit-transition: all 0.2s ease-out 0s;
+    -moz-transition: all 0.2s ease-out 0s;
+    -ms-transition: all 0.2s ease-out 0s;
+    -o-transition: all 0.2s ease-out 0s;
+    
+    font-weight: 900;
+}
+#submit_of_new_repo:hover{
+    width: 12rem;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+    
+}
+
+
+
+
+
 #repository-content{
     display: none;
 }
@@ -94,6 +219,7 @@ body{
     background-color: rgba(0, 0, 0,0.9);
     top: 80%;
     left:80%;
+    z-index: 1;
 
 
 }
@@ -118,4 +244,125 @@ body{
 }
 #signout{
     display: none;
+}
+#bodies{
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 2.25fr;
+
+}
+#profilepic_inthescreen{
+    height: 15rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-color: green;
+    border-width: 5px;
+    border-style: solid;
+    background-image: url("Screenshot\ 2026-07-03\ at\ 4.46.51\ PM.png");
+    background-size: 15rem 15rem;
+}
+#profile_of_the_person{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    border-color: aliceblue;
+    border-style: dashed;
+    border-width: 0.2rem;
+}
+#feature_block{
+    height: 4rem;
+    position: relative;
+    border-color: aliceblue;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    border-style: dashed;
+    border-width: 0.2rem;
+}
+#Addi{
+    margin: 0.3rem;
+    width: 6rem;
+    height: 1.5rem;
+    position:absolute;
+    top: 20%;
+    left: 80%;
+    color: azure;
+    background-color: green;
+    border-radius: 0.3rem;
+    -webkit-border-radius: 0.3rem;
+    -moz-border-radius: 0.3rem;
+    -ms-border-radius: 0.3rem;
+    -o-border-radius: 0.3rem;
+    border-color: azure;
+    border-width: 0.1rem;
+    border-style: solid;
+    text-align: center;
+}
+#Addi:hover{
+    cursor: pointer;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+}
+#Add_files{
+    width: 100%;
+    height: auto;
+}
+.Add_files_files{
+    width: 100%;
+    height: 20vh;
+    border: 5px white solid;
+    position: relative;
+    padding: 20px;
+}
+.heddinging{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 20rem;
+    height: 2rem;
+    overflow: hidden;
+}
+.description_to_project{
+    position: absolute;
+    top:40%;
+    left:5% ;
+    width: 60rem;
+    height: 5rem;
+    /* overflow: hidden; */
+    background-color: black;
+    color: aliceblue;
+    overflow: hidden;
+    font-size: 0.9rem;
+
+}
+.File_open_link{
+    position: absolute;
+    top: 7%;
+    left: 90%;
+    background-color: green;
+    padding: 2px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-color: aliceblue;
+    border: 2px whitesmoke solid;
+    cursor: pointer;
+    
+}
+.File_open_link:hover{
+    width: 3.5rem;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+        transition: all 3s ease-out 0s;
+
+    
 }

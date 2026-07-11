@@ -8,6 +8,31 @@
 </head>
 <body>
     <div id="repository-content">
+    <div id="floating">
+        <form id="new_file">
+            <p id="item-1_new_file" class="item_new_file">
+            TITLE:<input type="text" placeholder="Title (3-25 letter)">
+            </p>
+            <p id="item-2_new_file" class="item_new_file">
+            E-MAIL:<input type="email" placeholder="Reffred emil">
+            </p>
+            <p id="item-3_new_file" class="item_new_file" >
+            DISCRIPTION:<textarea id="description"></textarea>10-250 words
+            </p>
+            <p id="item-4_new_file" class="item_new_file">
+                <span id="Asli_khel">Select File</span>
+            <input type="file" id="submit_file_new_file">
+            </p>
+            <p id="item-5_new_file" class="item_new_file">
+            <button type="submit" id="submit_of_new_repo">SUBMIT</button>
+            </p>
+            <p id="cross">X</p>
+        </form>
+
+    </div>
+        
+
+
     <div id="headies">
         <p id="nav"></p>
         <div id="navigation-bar"><p class="navigation-bar-item" id="navigation-bar-dashbord">DASHBORD</p><p class="navigation-bar-item" id="navigation-bar-repository">REPOSITORY</p><p class="navigation-bar-item" id="navigation-bar-forms">FORMS</p><p class="navigation-bar-item" id="navigation-bar-collaboration">COLLABORATION</p></div>
@@ -16,6 +41,28 @@
         <p id="nav-username">Username</p>
         <div id="signout"><p id="signout-login-id">login-id</p><p id="signout-button-click">signout</p><button id="signout-button" type="submit"></button>
     </div>        
+    </div>
+    <div id="bodies">
+        <div id="profile_of_the_person">
+            <div id="profilepic_inthescreen"></div>
+            <div id="profileinfo_inthescreen">
+                <p id="usernameonscreen">Username</p>
+                <p id="loginonscreen">Login-ID</p>
+            </div>
+        </div>
+        <div id="repo">
+            <div id="feature_block">
+                <p id="Addi">+ ADD</p>
+            </div>
+            <div id="Add_files">
+                <div class="Add_files_files">
+                    <a class="File_open_link" href="">FILE</a>
+                    <h3 class="heddinging">Heading</h3>
+                    <textarea  class="description_to_project">DISCRIPTION</textarea>
+                </div>
+            </div>
+        </div>
+
     </div>
     </div>
     <script type="module" src="repository.js" ></script>

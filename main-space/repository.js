@@ -42,22 +42,31 @@
 // });
 
 
-import { auth } from "../AUTHENTICATION/figure.js";
+import { auth,db } from "../AUTHENTICATION/figure.js";
 import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    addDoc,
+    serverTimestamp,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const dashboard = document.getElementById("repository-content");
 // const usernameNav = document.getElementById("nav-username");
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async(user) => {
 
     if (user) {
 
         
         dashboard.style.display = "initial";
-
+        await loadprofile(user.uid);
+        await makenewfile(user.uid);
         
         // usernameNav.textContent = user.email;
 
@@ -69,6 +78,7 @@ onAuthStateChanged(auth, (user) => {
     }
 
 });
+
 let nav_icon=document.querySelector("#nav");
 let navigation_bar=document.querySelector("#navigation-bar");
 let timer;
@@ -121,3 +131,229 @@ signout_button_click.addEventListener("click",async function(){
 
     }
 })
+let navigation_bar_dashbord=document.querySelector("#navigation-bar-dashbord");
+let navigation_bar_repository=document.querySelector("#navigation-bar-repository");
+let navigation_bar_forms=document.querySelector("#navigation-bar-forms");
+let navigation_bar_collaboration=document.querySelector("#navigation-bar-collaboration");
+
+function clicktonav(button,place){
+    button.addEventListener("click",function(){
+        window.location.href=place;
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+let Asli_khel=document.querySelector("#Asli_khel");
+let submit_file_new_file=document.querySelector("#submit_file_new_file");
+Asli_khel.addEventListener("click",function(){
+    submit_file_new_file.click();
+})
+submit_file_new_file.addEventListener("change",function(){
+    if(submit_file_new_file.files.length===0){
+        Asli_khel.textContent="Select File";
+    }
+    else{
+        Asli_khel.textContent=`${submit_file_new_file.files[0].name}`;
+    }
+    
+})
+let floating=document.querySelector("#floating");
+let cross=document.querySelector("#cross");
+let new_file=document.querySelector("#new_file");
+cross.addEventListener("click",function(){
+    floating.style.display="none";
+    new_file.reset();
+
+})
+
+
+
+
+
+
+
+
+
+let profileDocRef = null;
+let signout_login_id=document.querySelector("#signout-login-id");
+let nav_username=document.querySelector("#nav-username");
+let usernameonscreen=document.querySelector("#usernameonscreen");
+let loginonscreen=document.querySelector("#loginonscreen");
+let profilepic_inthescreen=document.querySelector("#profilepic_inthescreen");
+let item_2_new_file=document.querySelector("#item-2_new_file input");
+async function loadprofile(uid) {
+
+    console.log("Current UID:", uid);
+
+    const q = query(
+        collection(db, "profileinfo"),
+        where("uid", "==", uid)
+    );
+
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
+    alert("Profile not found.");
+    return;
+}
+
+    console.log("Documents found:", snapshot.size);
+
+    snapshot.forEach((doc) => {
+         profileDocRef = doc.ref;
+
+        const pprofile = doc.data();
+
+        signout_login_id.innerText = pprofile.email;
+        loginonscreen.innerText=pprofile.email;
+        item_2_new_file.value=pprofile.email;
+        usernameonscreen.innerText = pprofile.username;
+        profile.style.backgroundImage = `url("${pprofile.imageURL}")`;
+        profilepic_inthescreen.style.backgroundImage = `url("${pprofile.imageURL}")`;
+        nav_username.innerText=pprofile.username;
+    });
+}
+clicktonav(navigation_bar_dashbord,"dashbord.html");
+let Addi=document.querySelector("#Addi");
+Addi.addEventListener("click",function(){
+    floating.style.display="grid";
+    item_2_new_file.value=loginonscreen.innerText;
+})
+
+
+
+
+
+const titleRegex = /^[A-Za-z0-9 _().-]{3,25}$/;
+const descriptionRegex = /^[A-Za-z0-9\s.,!?'"():;_\-\/@#&%+\n]{10,250}$/;
+let description=document.querySelector("#description");
+let submit_of_new_repo=document.querySelector("#submit_of_new_repo");
+let item_1_new_file=document.querySelector("#item-1_new_file input");
+
+submit_of_new_repo.addEventListener("click",async function(del){
+    del.preventDefault();
+    if(!titleRegex.test(item_1_new_file.value.trim())||!descriptionRegex.test(description.value.trim())){
+        alert("Title or description is missing")
+        return;
+    }
+    if (submit_file_new_file.files.length === 0) {
+        alert("Please select a PDF.");
+        return;
+    }
+    
+    if(submit_file_new_file.files[0].type !== "application/pdf"){
+    alert("Only PDF files are allowed.");
+    return;
+}
+
+    try {
+
+        // Upload PDF to Cloudinary
+        const formData = new FormData();
+        const pdf = submit_file_new_file.files[0];
+        formData.append("file", pdf);
+        formData.append("upload_preset", "repository_pdf");
+
+        const response = await fetch(
+            "https://api.cloudinary.com/v1_1/brxnppft/raw/upload",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const uploadData = await response.json();
+
+        console.log(uploadData);
+
+        if (!response.ok) {
+            alert(uploadData.error.message);
+            return;
+        }
+
+        // Save metadata in Firestore
+        await addDoc(collection(db, "repositories"), {
+
+            title: item_1_new_file.value.trim(),
+
+            description: description.value.trim(),
+
+            ownerEmail: loginonscreen.innerText,
+
+            ownerUid: auth.currentUser.uid,
+
+            pdfURL: uploadData.secure_url,
+
+            publicId: uploadData.public_id,
+
+            createdAt: serverTimestamp()
+
+        });
+
+        alert("Repository uploaded successfully!");
+
+        // Reset popup
+        new_file.reset();
+
+        Asli_khel.textContent = "Select File";
+
+        floating.style.display = "none";
+        await makenewfile(auth.currentUser.uid);
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Upload failed.");
+
+    }
+
+});
+
+let Add_files=document.querySelector("#Add_files");
+
+async function makenewfile(uid){
+    let enrollment=query(collection(db,"repositories"),where("ownerUid","==",uid),orderBy("createdAt", "desc"));
+    let snapshote= await getDocs(enrollment);
+    if(snapshote.empty){
+        alert("No such File exist");
+        return;
+    }
+    snapshote.forEach((doc)=>{
+        let repo=doc.data();
+        let box=document.createElement("div");
+        box.classList.add("Add_files_files");
+        let hedding=document.createElement("h3");
+        hedding.classList.add("heddinging");
+        hedding.innerText=`${repo.title}`;
+        box.appendChild(hedding);
+        let discription=document.createElement("textarea");
+        box.appendChild(discription);
+        discription.value=`${repo.description}`;
+        discription.classList.add("description_to_project");
+        
+        let anchor = document.createElement("a");
+        anchor.href=`${repo.pdfURL}`;
+
+        anchor.href = repo.pdfURL;
+        anchor.innerText = "FILE";
+        anchor.target = "_blank";
+        anchor.classList.add("File_open_link");
+
+        box.appendChild(anchor);
+        Add_files.appendChild(box);
+        
+    }
+    )
+
+
+}
