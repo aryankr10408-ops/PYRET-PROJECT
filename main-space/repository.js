@@ -54,8 +54,15 @@ import {
     getDocs,
     addDoc,
     serverTimestamp,
-    orderBy
+    orderBy,
+    deleteDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+const supabase = createClient(
+    "https://tkktovtkvnihkpvegmzd.supabase.co",
+    "sb_publishable_YFaxQrTQJGfD1xU2ZOJDYQ_vxhzdqE8"
+);
 const dashboard = document.getElementById("repository-content");
 // const usernameNav = document.getElementById("nav-username");
 
@@ -78,7 +85,7 @@ onAuthStateChanged(auth, async(user) => {
     }
 
 });
-
+let deleting_scene=document.querySelector("#deleting_scene");
 let nav_icon=document.querySelector("#nav");
 let navigation_bar=document.querySelector("#navigation-bar");
 let timer;
@@ -258,29 +265,37 @@ submit_of_new_repo.addEventListener("click",async function(del){
 
     try {
 
-        // Upload PDF to Cloudinary
-        const formData = new FormData();
-        const pdf = submit_file_new_file.files[0];
-        formData.append("file", pdf);
-        formData.append("upload_preset", "repository_pdf");
+        // Upload PDF to Supabase Storage
 
-        const response = await fetch(
-            "https://api.cloudinary.com/v1_1/brxnppft/raw/upload",
-            {
-                method: "POST",
-                body: formData
-            }
-        );
+const pdf = submit_file_new_file.files[0];
 
-        const uploadData = await response.json();
+const cleanName = pdf.name.replace(/\s+/g, "-");
 
-        console.log(uploadData);
+const fileName = `${Date.now()}-${cleanName}`;
 
-        if (!response.ok) {
-            alert(uploadData.error.message);
-            return;
-        }
+const { data, error } = await supabase.storage
+    .from("repository")
+    .upload(fileName, pdf, {
+    contentType: "application/pdf"
+});
 
+if (error) {
+    console.error(error);
+    alert("PDF upload failed");
+    return;
+}
+
+
+// Get public URL
+
+const { data: urlData } = supabase.storage
+    .from("repository")
+    .getPublicUrl(fileName);
+
+
+const pdfURL = urlData.publicUrl;
+
+console.log("PDF URL:", pdfURL);
         // Save metadata in Firestore
         await addDoc(collection(db, "repositories"), {
 
@@ -292,9 +307,8 @@ submit_of_new_repo.addEventListener("click",async function(del){
 
             ownerUid: auth.currentUser.uid,
 
-            pdfURL: uploadData.secure_url,
-
-            publicId: uploadData.public_id,
+            pdfURL: pdfURL,
+            publicId: fileName,
 
             createdAt: serverTimestamp()
 
@@ -318,10 +332,13 @@ submit_of_new_repo.addEventListener("click",async function(del){
     }
 
 });
-
+// discription.readOnly = true;
+let selectedRepoId = null;
+let selectedPublicId = null;
 let Add_files=document.querySelector("#Add_files");
 
 async function makenewfile(uid){
+    Add_files.innerHTML = "";
     let enrollment=query(collection(db,"repositories"),where("ownerUid","==",uid),orderBy("createdAt", "desc"));
     let snapshote= await getDocs(enrollment);
     if(snapshote.empty){
@@ -329,6 +346,7 @@ async function makenewfile(uid){
         return;
     }
     snapshote.forEach((doc)=>{
+        let repoId = doc.id;
         let repo=doc.data();
         let box=document.createElement("div");
         box.classList.add("Add_files_files");
@@ -340,9 +358,27 @@ async function makenewfile(uid){
         box.appendChild(discription);
         discription.value=`${repo.description}`;
         discription.classList.add("description_to_project");
+
+        let cutitout=document.createElement("p");
+        cutitout.classList.add("cross_it_out");
+        cutitout.innerHTML="X";
+        box.appendChild(cutitout);
+        cutitout.addEventListener("click",function(){
+    deleting_scene.style.display="grid";
+    selectedRepoId = repoId;
+    selectedPublicId = repo.publicId;
+    Add_files.style.display="none";
+
+})
         
         let anchor = document.createElement("a");
         anchor.href=`${repo.pdfURL}`;
+
+
+
+        console.log(repo.pdfURL);
+        
+
 
         anchor.href = repo.pdfURL;
         anchor.innerText = "FILE";
@@ -352,8 +388,48 @@ async function makenewfile(uid){
         box.appendChild(anchor);
         Add_files.appendChild(box);
         
+
+        
     }
     )
 
 
 }
+let cross_it_out=document.querySelector(".cross_it_out");
+
+
+
+const cancelBtn = document.querySelector("#deleting_scene_cancle");
+const deleteBtn = document.querySelector("#deleting_scene_delete");
+
+cancelBtn.addEventListener("click", () => {
+    deleting_scene.style.display = "none";
+    Add_files.style.display = "block";
+});
+deleteBtn.addEventListener("click", async () => {
+
+    try {
+
+        const { error } = await supabase.storage
+            .from("repository")
+            .remove([selectedPublicId]);
+
+        if (error) {
+            console.error("Supabase delete error:", error);
+            alert(error.message);
+            return;
+        }
+
+        await deleteDoc(doc(db, "repositories", selectedRepoId));
+
+        deleting_scene.style.display = "none";
+        await makenewfile(auth.currentUser.uid);
+
+    } catch (err) {
+
+        console.error(err);
+        alert(err.message);
+
+    }
+
+});
