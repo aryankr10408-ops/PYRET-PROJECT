@@ -1,0 +1,155 @@
+*{
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+#dashboard-content{
+    /* display: none; */
+}
+body{
+    background-color: rgb(34, 36, 40);
+    color: white;
+    font-family:'Poppins',sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    position: relative;
+
+}
+#headies{
+    height: 10vh;
+    width: 100%;
+    background-color: rgb(35, 32, 35);
+    display: flex;
+    position: relative;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    border-color: antiquewhite;
+    border-width: 0.2rem;
+    border-style: dashed;
+}
+#headies>p{
+    position: absolute;
+    
+}
+#headies>h4{
+    position: absolute;
+    top:40%;
+    left: 10%;
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+#nav{
+    top: 12%;
+    left: 5%;
+    width: 2rem;
+    height: 2rem;
+    background-image:url("Screenshot\ 2026-07-03\ at\ 4.09.41\ PM.png") ;
+    background-size: 2rem 2rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+#profile{
+    top: 12%;
+    left: 80%;
+    width: 2rem;
+    height: 2rem;
+    background-image:url("Screenshot\ 2026-07-03\ at\ 4.46.51\ PM.png") ;
+    background-size: 2rem 2rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+#nav-username{
+    top: 5%;
+    left:85%;
+    font-size: 1.5rem;
+}
+#navigation-bar{
+    position: absolute;
+    background-color: rgba(0, 0, 0,0.9);
+    top: 80%;
+    color: blanchedalmond;
+    width: 14rem;
+    height: 10rem;
+    display:none;
+
+}
+.navigation-bar-item:hover{
+    color: whitesmoke;
+    font-size: 20px;
+    cursor: pointer;
+}
+#signout{
+    position: absolute;
+    width: 7rem;
+    height: 6rem;
+    background-color: rgba(0, 0, 0,0.9);
+    top: 80%;
+    left:80%;
+    z-index: 1;
+
+
+}
+#signout-button-click{
+    width: 5rem;
+    height: 2rem;
+    background-color: darkgreen;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    margin: 1rem;
+    cursor: pointer;
+}
+#signout-button{
+    display: none;
+}
+#signout-login-id{
+    font-size: 0.8rem;
+}
+#signout{
+    display: none;
+}
+#bodies{
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 2.25fr;
+
+}
+#profilepic_inthescreen{
+    height: 15rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-color: green;
+    border-width: 5px;
+    border-style: solid;
+    background-image: url("Screenshot\ 2026-07-03\ at\ 4.46.51\ PM.png");
+    background-size: 15rem 15rem;
+}
+#profile_of_the_person{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    border-color: aliceblue;
+    border-style: dashed;
+    border-width: 0.2rem;
+}
