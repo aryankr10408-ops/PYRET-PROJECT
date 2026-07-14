@@ -411,3 +411,4 @@ function clicktonav(button,place){
     })
 }
 clicktonav(navigation_bar_repository,"repository.html");
+clicktonav(navigation_bar_forms,"form.html");

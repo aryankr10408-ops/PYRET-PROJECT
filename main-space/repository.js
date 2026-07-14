@@ -148,8 +148,8 @@ function clicktonav(button,place){
         window.location.href=place;
     })
 }
-
-
+clicktonav(navigation_bar_dashbord,"dashbord.html");
+clicktonav(navigation_bar_forms,"form.html");
 
 
 
