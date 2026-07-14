@@ -9,9 +9,11 @@ import {
     where,
     getDocs,
     updateDoc,
-    addDoc
+    addDoc,
+    onSnapshot,
+    orderBy,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
 
 
 
@@ -24,7 +26,7 @@ onAuthStateChanged(auth, async(user) => {
     if (user) {
         dashboard.style.display = "initial";
         await loadprofile(user.uid);
-        await displayChats();
+        displayChats();
         // usernameNav.textContent = user.email;
 
     } else {
@@ -126,60 +128,63 @@ let heading_of_chatbox=document.querySelector("#heading_of_chatbox");
 
 
 
-async function displayChats(){
-
-    let chatBox = document.querySelector("#real_chat");
-
-    // remove old chats
-    chatBox.innerHTML="";
+let unsubscribeChats;
 
 
-    const q=query(
+function displayChats(){
+
+    const chatBox = document.querySelector("#real_chat");
+    if (unsubscribeChats) {
+    unsubscribeChats();
+}
+    const q = query(
         collection(db,"chats"),
-        where("category","==",currentCategory)
+        where("category","==",currentCategory),
+        orderBy("createdAt")
     );
 
+    unsubscribeChats = onSnapshot(
+    q,
+    (snapshot) => {
 
-    const snapshot=await getDocs(q);
+        chatBox.innerHTML = "";
 
+        snapshot.forEach((doc) => {
 
-    snapshot.forEach((doc)=>{
+            let chat = doc.data();
 
-        let chat=doc.data();
+            let chatDiv = document.createElement("div");
 
+            if (chat.uid === auth.currentUser.uid) {
+                chatDiv.className = "my_chats";
+            } else {
+                chatDiv.className = "others_chat";
+            }
 
-        let chatDiv=document.createElement("div");
+            const usernameClass =
+                chat.uid === auth.currentUser.uid
+                    ? "username_of_chats_my"
+                    : "username_of_chats_other";
 
+            chatDiv.innerHTML = `
+                <div class="${usernameClass}">
+                    ${chat.username}
+                </div>
 
-        if(chat.uid===auth.currentUser.uid){
+                <div class="written_chat">
+                    ${chat.written_material}
+                </div>
+            `;
 
-            chatDiv.className="my_chats";
+            chatBox.appendChild(chatDiv);
+        });
 
-        }
-        else{
-
-            chatDiv.className="others_chat";
-
-        }
-
-
-
-        chatDiv.innerHTML=`
-
-            <div class="username_of_chats_my">
-                ${chat.username}
-            </div>
-
-            <div class="written_chat">
-                ${chat.written_material}
-            </div>
-
-        `;
-
-
-        chatBox.appendChild(chatDiv);
-
-    });
+        chatBox.scrollTop = chatBox.scrollHeight;
+    },
+    (error) => {
+        console.error(error);
+    }
+);
 
 }
 
@@ -188,7 +193,7 @@ scroolbar_option_technical.addEventListener("click",async function(){
     currentCategory="TECHNICAL";
     heading_of_chatbox.textContent="TECHNICAL";
 
-    await displayChats();
+    displayChats();
 
 });
 
@@ -198,7 +203,7 @@ scroolbar_option_non_tech.addEventListener("click",async function(){
     currentCategory="NON-TECH";
     heading_of_chatbox.textContent="NON-TECH";
 
-    await displayChats();
+    displayChats();
 
 });
 let navigation_bar_dashbord=document.querySelector("#navigation-bar-dashbord");
@@ -229,8 +234,10 @@ submit_response_link.addEventListener("click",async function(){
         uid: auth.currentUser.uid,
         username: nav_username.textContent,
         category: currentCategory,
-        createdAt: new Date()
+        createdAt: serverTimestamp()
+        
 });
+  response_textarea.value="";
     }
     else{
         alert("Write something!");
