@@ -63,7 +63,7 @@ const supabase = createClient(
     "https://tkktovtkvnihkpvegmzd.supabase.co",
     "sb_publishable_YFaxQrTQJGfD1xU2ZOJDYQ_vxhzdqE8"
 );
-const dashboard = document.getElementById("repository-content");
+const dashboard = document.getElementById("#repository-content");
 // const usernameNav = document.getElementById("nav-username");
 
 onAuthStateChanged(auth, async(user) => {
@@ -150,7 +150,7 @@ function clicktonav(button,place){
 }
 clicktonav(navigation_bar_dashbord,"dashbord.html");
 clicktonav(navigation_bar_forms,"form.html");
-
+clicktonav(navigation_bar_collaboration,"collaboration.html");
 
 
 
