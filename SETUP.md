@@ -1,138 +1,96 @@
-# ProjectSphere Setup Guide
+ProjectSphere Setup Guide
 
 This document explains how to set up and run the ProjectSphere application locally.
 
----
+Prerequisites
 
-# Prerequisites
+Before running the project, ensure you have:
 
-Before running the project, make sure you have:
-
-* A modern web browser (Chrome, Edge, Firefox, etc.)
-* Internet connection
-* Firebase account
-* Supabase account
-* Code editor (recommended: Visual Studio Code)
-
----
-
-# 1. Clone the Repository
+A modern web browser (Chrome, Edge, Firefox, etc.)
+Internet connection
+Firebase account
+Supabase account
+Code editor (recommended: Visual Studio Code)
+1. Clone the Repository
 
 Clone the project repository:
 
-```bash
 git clone <repository-link>
-```
 
 Navigate into the project folder:
 
-```bash
 cd ProjectSphere
-```
-
----
-
-# 2. Firebase Configuration
+2. Firebase Configuration
 
 ProjectSphere uses Firebase for:
 
-* User authentication.
-* Firestore database.
-
-Steps:
-
-1. Create a Firebase project.
-2. Enable Firebase Authentication.
-3. Enable Firestore Database.
-4. Create a web application inside Firebase.
-5. Copy the Firebase configuration details.
-
-Add the Firebase configuration inside:
-
-```
+User Authentication
+Cloud Firestore Database
+Real-time Collaboration
+Explore Project Data Storage
+Steps
+Create a Firebase project.
+Enable Firebase Authentication.
+Enable Cloud Firestore Database.
+Create a Web App inside Firebase.
+Copy the Firebase configuration details.
+Add the configuration inside:
 AUTHENTICATION/figure.js
-```
 
-The configuration should contain:
+The configuration should include:
 
-* apiKey
-* authDomain
-* projectId
-* storageBucket
-* messagingSenderId
-* appId
+apiKey
+authDomain
+projectId
+storageBucket
+messagingSenderId
+appId
+3. Supabase Configuration
 
----
+ProjectSphere uses Supabase Storage to store project documentation files.
 
-# 3. Supabase Configuration
-
-ProjectSphere uses Supabase Storage for storing project documentation files.
-
-Steps:
-
-1. Create a Supabase project.
-2. Create a storage bucket named:
-
-```
+Steps
+Create a Supabase project.
+Create a storage bucket named:
 repository
-```
-
-3. Add the Supabase project URL and key inside:
-
-```
+Add your Supabase URL and API key inside:
 repository.js
-```
 
-Configuration:
+Example:
 
-```javascript
 const supabase = createClient(
     "YOUR_SUPABASE_URL",
     "YOUR_SUPABASE_KEY"
 );
-```
+4. Running the Project
 
----
+Since the project uses JavaScript ES Modules, it must be served through a local web server.
 
-# 4. Running the Project
+Recommended Method (VS Code Live Server)
+Install the Live Server extension.
+Open the ProjectSphere folder in Visual Studio Code.
+Open the starting HTML file (e.g., Sign-in.html).
+Click Go Live.
 
-Since the project uses JavaScript modules, it should be served through a local server.
+The application will open automatically in your default browser.
 
-Recommended method:
-
-Using VS Code Live Server extension:
-
-1. Install Live Server extension.
-2. Open the project folder.
-3. Open the starting HTML file.
-4. Click:
-
-```
-Go Live
-```
-
-The application will open in your browser.
-
----
-
-# 5. Application Flow
+5. Application Flow
 
 After starting the project:
 
-1. Register a new account.
-2. Login using your credentials.
-3. Complete your profile information.
-4. Upload project documentation.
-5. View and manage uploaded projects.
-6. Use collaboration channels for discussions.
+Register a new account.
+Log in using your credentials.
+Complete your student profile.
+Upload project documentation through the Repository module.
+View, download, or manage uploaded project files.
+Publish GitHub repositories using the Explore module.
+Browse repositories shared by other students.
+Filter repositories by Technical and Non-Technical categories.
+Participate in discussions using the Collaboration module.
+6. Folder Structure
 
----
+Example project structure:
 
-# 6. Folder Structure
-
-Example structure:
-
-```
 ProjectSphere
 │
 ├── AUTHENTICATION
@@ -147,48 +105,61 @@ ProjectSphere
 │   ├── repository.js
 │   └── repository.css
 │
+├── explore
+│   ├── explore.html
+│   ├── explore.js
+│   └── explore.css
+│
 ├── collaboration
+│   ├── collaboration.html
+│   ├── collaboration.js
+│   └── collaboration.css
+│
+├── forms
 │   ├── form.html
 │   ├── form.js
 │   └── form.css
 │
 └── README.md
-```
+7. Troubleshooting
+Firebase Authentication Not Working
 
----
+Verify that:
 
-# Troubleshooting
-
-## Firebase authentication not working
-
-Check:
-
-* Firebase configuration values.
-* Authentication providers are enabled.
-* Browser console errors.
-
----
-
-## File upload failing
+Firebase configuration values are correct.
+Authentication providers are enabled.
+Browser console shows no Firebase initialization errors.
+Project Documentation Upload Failing
 
 Check:
 
-* Supabase bucket name.
-* Supabase permissions.
-* Correct storage configuration.
+Supabase bucket name is repository.
+Supabase storage permissions are configured correctly.
+Storage URL and API key are valid.
+Explore Module Not Displaying Projects
 
----
+Verify that:
 
-## Firestore errors
+The projects collection exists in Firestore.
+Firestore security rules allow read access.
+Project documents contain required fields:
+title
+description
+email
+githubURL
+ownerUid
+tech
+nonTech
+createdAt
+Firestore Errors
 
-Check:
+Check that:
 
-* Firestore database is created.
-* Security rules allow required operations.
-* Collection names match the application.
-
----
-
-# Notes
-
-The application currently uses client-side Firebase and Supabase integration. For production deployment, environment variables and stricter security rules should be added.
+Firestore database has been created.
+Security rules allow the required read/write operations.
+Collection names in the application match those in Firestore.
+Notes
+ProjectSphere uses client-side Firebase Authentication, Cloud Firestore, and Supabase Storage.
+The Repository module stores project documentation files in Supabase Storage, while metadata is maintained in Firestore.
+The Explore module stores GitHub repository information entirely in Firestore and allows users to browse projects shared by themselves and others.
+For production deployment, sensitive configuration values should be managed using environment variables, and Firebase and Supabase security rules should be strengthened to prevent unauthorized access.
