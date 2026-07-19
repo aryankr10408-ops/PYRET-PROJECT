@@ -1,149 +1,139 @@
-# ProjectSphere Architecture Document
+ProjectSphere Architecture Document
+Overview
 
-## Overview
+ProjectSphere follows a client-side web application architecture where the frontend communicates with cloud-based services for authentication, database operations, real-time communication, and file storage.
 
-ProjectSphere follows a client-side web application architecture where the frontend communicates with cloud-based services for authentication, database operations, and file storage.
+The system is divided into four major components:
 
-The system is divided into three major parts:
-
-1. Frontend Application
-2. Firebase Services
-3. Supabase Storage
-
----
-
-# System Architecture
-
-```
-                    User
-                     |
-                     |
-              Frontend Application
-              (HTML/CSS/JavaScript)
-                     |
-        --------------------------------
-        |                              |
-        |                              |
- Firebase Services              Supabase Storage
-        |                              |
-        |                              |
- Authentication                 Project Files
- Firestore Database             (PDF Documents)
-
-```
-
----
-
-# 1. Frontend Layer
+Frontend Application
+Firebase Authentication
+Firebase Firestore Database
+Supabase Storage
+System Architecture
+                           User
+                             |
+                             |
+                  Frontend Application
+                (HTML / CSS / JavaScript)
+                             |
+      -------------------------------------------------
+      |                     |                         |
+      |                     |                         |
+Firebase Authentication   Firestore Database   Supabase Storage
+      |                     |                         |
+ User Authentication   Profiles, Projects,       Project Files
+ Session Management    Repositories & Chats      (PDF Documents)
+1. Frontend Layer
 
 The frontend is developed using:
 
-* HTML
-* CSS
-* JavaScript ES Modules
+HTML5
+CSS3
+JavaScript (ES Modules)
 
 The frontend is responsible for:
 
-* User interface.
-* User interactions.
-* Sending and receiving data.
-* Displaying projects and profiles.
-
-Main modules:
-
-## Authentication Module
-
-Handles:
-
-* User login.
-* User registration.
-* Authentication state checking.
-
-## Profile Module
+User interface rendering
+User interactions
+Sending and receiving data
+Displaying profiles and projects
+Managing navigation between modules
+Main Modules
+Authentication Module
 
 Handles:
 
-* Displaying user information.
-* Updating profile details.
-* Loading profile images.
-
-## Repository Module
-
-Handles:
-
-* Creating projects.
-* Uploading project documentation.
-* Displaying uploaded projects.
-* Deleting projects.
-
-## Collaboration Module
+User registration
+User login
+Authentication state management
+Route protection
+Profile Module
 
 Handles:
 
-* Real-time discussions.
-* Category-based conversations.
-* Sending and displaying messages.
+Creating user profiles
+Updating profile information
+Displaying profile images
+Loading user information after login
+Repository Module
 
----
+Handles:
 
-# 2. Firebase Services
+Creating project documentation entries
+Uploading PDF documentation
+Viewing uploaded projects
+Deleting projects
 
-Firebase is used as the backend service for authentication and database operations.
+Project files are uploaded to Supabase Storage while metadata is stored in Firestore.
 
-## Firebase Authentication
+Explore Module
 
-Purpose:
+The Explore module enables project discovery and GitHub repository sharing.
 
-* Manage user accounts.
-* Verify logged-in users.
-* Protect application pages.
+Responsibilities:
 
-Workflow:
+Create GitHub project entries
+Store repository title and description
+Save GitHub repository URLs
+Categorize projects as Technical or Non-Technical
+Display the current user's repositories (Mine)
+Display repositories uploaded by other users (Others)
+Filter projects using category-based filters
+Open GitHub repositories directly from the application
+Collaboration Module
 
-```
-User Login
-    |
+Handles:
+
+Real-time discussions
+Technical discussion channel
+Non-technical discussion channel
+Sending and displaying messages
+Automatic synchronization using Firestore listeners
+2. Firebase Services
+
+Firebase is used for authentication and database management.
+
 Firebase Authentication
-    |
+Purpose
+Manage user accounts
+Verify authenticated users
+Protect application pages
+Maintain login sessions
+Workflow
+User Login
+      |
+Firebase Authentication
+      |
 Authentication State Check
-    |
+      |
 Access Dashboard
-```
-
----
-
-## Firestore Database
+Firebase Firestore
 
 Firestore stores structured application data.
 
-Collections:
+profileinfo Collection
 
-### profileinfo
-
-Stores user profile information.
+Stores student profile information.
 
 Example:
 
-```
 profileinfo
  |
  |-- uid
  |-- username
  |-- email
+ |-- name
+ |-- age
+ |-- gender
  |-- degree
  |-- year
  |-- imageURL
-```
+repositories Collection
 
----
-
-### repositories
-
-Stores project information.
+Stores uploaded project documentation metadata.
 
 Example:
 
-```
 repositories
  |
  |-- title
@@ -151,18 +141,30 @@ repositories
  |-- ownerUid
  |-- ownerEmail
  |-- pdfURL
+ |-- publicId
  |-- createdAt
-```
+projects Collection
 
----
+Stores GitHub repositories shared through the Explore module.
 
-### chats
+Example:
+
+projects
+ |
+ |-- title
+ |-- description
+ |-- email
+ |-- githubURL
+ |-- ownerUid
+ |-- tech
+ |-- nonTech
+ |-- createdAt
+chats Collection
 
 Stores collaboration messages.
 
 Example:
 
-```
 chats
  |
  |-- uid
@@ -170,110 +172,101 @@ chats
  |-- written_material
  |-- category
  |-- createdAt
-```
-
----
-
-# 3. Supabase Storage
+3. Supabase Storage
 
 Supabase Storage is used for storing project documentation files.
 
-Workflow:
-
-```
-User selects PDF
-       |
+Workflow
+User Selects PDF
+        |
 Repository Module
-       |
+        |
 Supabase Storage Upload
-       |
+        |
 Public File URL Generated
-       |
+        |
 URL Stored in Firestore
-```
 
-The database stores file references while the actual documents are stored in Supabase.
+Only file metadata is stored in Firestore, while the actual documents remain in Supabase Storage.
 
----
-
-# Data Flow
-
-## Uploading a Project
-
-1. User enters project information.
-2. User selects a documentation file.
-3. File is uploaded to Supabase Storage.
-4. Supabase returns a file URL.
-5. Project details and file URL are stored in Firestore.
-6. Project becomes available in the user's repository.
-
----
-
-## Loading User Profile
-
-1. User logs in.
-2. Firebase Authentication provides user UID.
-3. Application searches Firestore profileinfo collection.
-4. Profile data is displayed.
-
----
-
-## Sending Collaboration Messages
-
-1. User writes a message.
-2. Message is stored in Firestore.
-3. Firestore real-time listener detects changes.
-4. Messages update automatically for connected users.
-
----
-
-# Design Decisions
-
-## Firebase Authentication
-
-Chosen because:
-
-* Easy integration with frontend applications.
-* Secure user authentication.
-* Provides authentication state management.
-
----
-
-## Firebase Firestore
+Data Flow
+Uploading Project Documentation
+User enters project information.
+User selects a PDF documentation file.
+The file is uploaded to Supabase Storage.
+Supabase generates a public file URL.
+Project metadata and the file URL are stored in the repositories collection.
+The project appears in the user's repository.
+Publishing a GitHub Repository
+User opens the Explore module.
+User selects Add.
+User enters:
+Project title
+Description
+GitHub repository URL
+Technical or Non-Technical category
+Project information is stored in the projects collection.
+The repository becomes visible under Mine.
+Other users can discover it through the Others section.
+Loading User Profile
+User logs in.
+Firebase Authentication provides the user's UID.
+Firestore searches the profileinfo collection.
+Profile information is displayed.
+Loading Explore Projects
+User opens the Explore module.
+Firestore retrieves documents from the projects collection.
+Projects are filtered based on:
+Mine / Others
+Technical
+Non-Technical
+Matching repositories are displayed with their GitHub links.
+Sending Collaboration Messages
+User writes a message.
+The message is stored in the chats collection.
+Firestore's real-time listener detects changes.
+Connected users receive updates instantly.
+Design Decisions
+Firebase Authentication
 
 Chosen because:
 
-* Real-time database updates.
-* Flexible document-based structure.
-* Easy integration with Firebase Authentication.
-
----
-
-## Supabase Storage
+Simple integration with frontend applications
+Secure authentication
+Built-in session management
+Reliable authentication state handling
+Firebase Firestore
 
 Chosen because:
 
-* Suitable for file storage.
-* Provides public file URLs.
-* Separates large file storage from database records.
+Real-time synchronization
+Flexible document-based data model
+Easy integration with Firebase Authentication
+Suitable for user profiles, repositories, explore projects, and chats
+Supabase Storage
 
----
+Chosen because:
 
-# Current Limitations
-
-* Projects are currently organized mainly by ownership.
-* Search and filtering are not implemented yet.
-* Team-based project management is not available.
-* Collaboration currently focuses on discussions.
-
----
-
-# Future Architecture Improvements
+Efficient cloud file storage
+Public file URL generation
+Good support for large document uploads
+Keeps file storage separate from structured database records
+Current Limitations
+Explore projects currently support only GitHub repository links.
+Project search by title or technology is not yet available.
+Explore filtering is limited to Technical and Non-Technical categories.
+Repository popularity metrics are not implemented.
+Team-based project management is not available.
+Collaboration currently focuses on text-based discussions.
+Future Architecture Improvements
 
 Future versions can include:
-
-* Dedicated backend API.
-* Search indexing system.
-* Project recommendation engine.
-* Team permission management.
-* Project analytics service.
+Advanced project search and filtering.
+Technology tags and category management.
+Public project discovery without authentication.
+Project comments, ratings, and bookmarks.
+Team collaboration with multiple project owners.
+Rich project pages supporting images, videos, and live demos.
+Repository analytics (views, stars, downloads, and engagement statistics).
+Notification system for collaboration and project updates.
+Backend API layer for improved scalability and security.
